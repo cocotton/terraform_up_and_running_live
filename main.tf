@@ -34,3 +34,7 @@ resource "digitalocean_firewall" "example" {
     }
   ]
 }
+
+output "example_droplet_public_ip" {
+  value = "${digitalocean_droplet.example.ipv4_address}"
+}
