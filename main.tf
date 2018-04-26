@@ -11,9 +11,13 @@ resource "digitalocean_droplet" "example" {
   ssh_keys            = ["be:7e:93:d3:c9:b6:eb:54:99:e0:b5:60:b0:82:ce:fd"]
   user_data           = <<-EOF
                         #!/bin/bash
-                        echo "Hello poussin" > index.html
+                        echo "$(hostname): Hello poussin!" > index.html
                         nohup busybox httpd -f -p "${var.example_public_port}" &
                         EOF
+
+  lifecycle {
+    create_before_destroy = "true"
+  }
 }
 
 resource "digitalocean_firewall" "example" {
