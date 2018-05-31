@@ -33,3 +33,7 @@ resource "aws_security_group" "example" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+output "instance_public_ip" {
+  value = "${aws_instance.example.public_ip}"
+}
