@@ -25,39 +25,6 @@ resource "aws_launch_configuration" "example" {
   }
 }
 
-resource "aws_security_group" "example_instance" {
-  name = "example-instance"
-
-  ingress {
-    from_port   = "${var.server_port}"
-    to_port     = "${var.server_port}"
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_security_group" "example_elb" {
-  name = "example-elb"
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 resource "aws_autoscaling_group" "example_instance" {
   launch_configuration = "${aws_launch_configuration.example.id}"
   availability_zones   = ["${data.aws_availability_zones.all.names}"]
@@ -93,6 +60,39 @@ resource "aws_elb" "example" {
     timeout             = 3
     interval            = 30
     target              = "HTTP:${var.server_port}/"
+  }
+}
+
+resource "aws_security_group" "example_instance" {
+  name = "example-instance"
+
+  ingress {
+    from_port   = "${var.server_port}"
+    to_port     = "${var.server_port}"
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_security_group" "example_elb" {
+  name = "example-elb"
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
