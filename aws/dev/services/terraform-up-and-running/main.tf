@@ -14,18 +14,22 @@ data "terraform_remote_state" "example_database" {
   }
 }
 
+data "template_file" "user_data" {
+  template_file = "${file(user-data.sh)}"
+
+  vars {
+    server_port      = "${var.server_port}"
+    database_address = "${data.terraform_remote_state.example_database.address}"
+    database_port    = "${data.terraform_remote_state.example_database.port}"
+  }
+}
+
 resource "aws_launch_configuration" "example" {
   image_id        = "ami-a4dc46db"
   instance_type   = "t2.micro"
   security_groups = ["${aws_security_group.example_instance.id}"]
 
-  user_data = <<-EOF
-              #!/bin/bash
-              echo "Hello baby" > index.html
-              echo "Database address: ${data.terraform_remote_state.example_database.address}" >> index.html
-              echo "Database port: ${data.terraform_remote_state.example_database.port}" >> index.html
-              nohup busybox httpd -f -p "${var.server_port}" &
-              EOF
+  user_data = "FILLEMEUP"
 
   lifecycle {
     create_before_destroy = true
