@@ -15,7 +15,7 @@ data "terraform_remote_state" "example_database" {
 }
 
 data "template_file" "user_data" {
-  template_file = "${file("user-data.sh")}"
+  template = "${file("user-data.sh")}"
 
   vars {
     server_port      = "${var.server_port}"
