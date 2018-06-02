@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
     bucket  = "cocotton-terraform-up-and-running-state"
-    key     = "work_in_progress/s3/terraform.tfstate"
+    key     = "/dev/services/terraform-up-and-running/terraform.tfstate"
     region  = "us-east-1"
     encrypt = "true"
-    dynamodb_table = "terraform-state-lock-dynamo"
+    dynamodb_table = "terraform-state-lock"
   }
 }
