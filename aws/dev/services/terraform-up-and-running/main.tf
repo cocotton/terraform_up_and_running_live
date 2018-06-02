@@ -4,6 +4,16 @@ provider "aws" {
 
 data "aws_availability_zones" "all" {}
 
+data "terraform_remote_state" "example_database" {
+  backend = "s3"
+
+  config {
+    bucket = "cocotton-terraform-up-and-running-state"
+    key    = "dev/data-stores/mysql/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
 resource "aws_launch_configuration" "example" {
   image_id        = "ami-a4dc46db"
   instance_type   = "t2.micro"
@@ -12,6 +22,8 @@ resource "aws_launch_configuration" "example" {
   user_data = <<-EOF
               #!/bin/bash
               echo "Hello baby" > index.html
+              echo "Database address: ${data.terraform_remote_state.example_database.address}" >> index.html
+              echo "Database port: ${data.terraform_remote_state.example_database.port}" >> index.html
               nohup busybox httpd -f -p "${var.server_port}" &
               EOF
 
