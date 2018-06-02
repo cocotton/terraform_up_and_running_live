@@ -7,6 +7,6 @@ resource "aws_db_instance" "example_database" {
   allocated_storage = 10
   instance_class    = "db.t2.micro"
   name              = "exampleDatabase"
-  username          = "admin"
+  username          = "exampleadmin"
   password          = "${var.database_password}"
 }
