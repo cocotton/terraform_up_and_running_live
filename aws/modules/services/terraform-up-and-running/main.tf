@@ -4,8 +4,11 @@ data "terraform_remote_state" "example_database" {
   backend = "s3"
 
   config {
-    bucket = "cocotton-terraform-up-and-running-state"
-    key    = "dev/data-stores/mysql/terraform.tfstate"
+    bucket = "${var.database_remote_state_bucket}"
+    key    = "${var.database_remote_state_key}"
+
+    //    bucket = "cocotton-terraform-up-and-running-state"
+    //    key    = "dev/data-stores/mysql/terraform.tfstate"
     region = "us-east-1"
   }
 }
@@ -21,6 +24,7 @@ data "template_file" "user_data" {
 }
 
 resource "aws_launch_configuration" "example" {
+  name            = "${var.cluster_name}-launch-configuration"
   image_id        = "ami-a4dc46db"
   instance_type   = "t2.micro"
   security_groups = ["${aws_security_group.example_instance.id}"]
@@ -33,6 +37,7 @@ resource "aws_launch_configuration" "example" {
 }
 
 resource "aws_autoscaling_group" "example_instance" {
+  name                 = "${var.cluster_name}-autoscaling-group"
   launch_configuration = "${aws_launch_configuration.example.id}"
   availability_zones   = ["${data.aws_availability_zones.all.names}"]
 
@@ -44,13 +49,13 @@ resource "aws_autoscaling_group" "example_instance" {
 
   tag {
     key                 = "Name"
-    value               = "asg-example"
+    value               = "${var.cluster_name}-autoscaling-group"
     propagate_at_launch = true
   }
 }
 
 resource "aws_elb" "example" {
-  name               = "elb-example"
+  name               = "${var.cluster_name}-elastic-loadbalancer"
   availability_zones = ["${data.aws_availability_zones.all.names}"]
   security_groups    = ["${aws_security_group.example_elb.id}"]
 
@@ -71,7 +76,7 @@ resource "aws_elb" "example" {
 }
 
 resource "aws_security_group" "example_instance" {
-  name = "example-instance"
+  name = "${var.cluster_name}-instance-security-group"
 
   ingress {
     from_port   = "${var.server_port}"
@@ -86,7 +91,7 @@ resource "aws_security_group" "example_instance" {
 }
 
 resource "aws_security_group" "example_elb" {
-  name = "example-elb"
+  name = "${var.cluster_name}-elb-security-group"
 
   ingress {
     from_port   = 80
