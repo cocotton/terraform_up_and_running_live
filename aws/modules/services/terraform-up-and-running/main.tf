@@ -7,8 +7,6 @@ data "terraform_remote_state" "example_database" {
     bucket = "${var.database_remote_state_bucket}"
     key    = "${var.database_remote_state_key}"
 
-    //    bucket = "cocotton-terraform-up-and-running-state"
-    //    key    = "dev/data-stores/mysql/terraform.tfstate"
     region = "us-east-1"
   }
 }
