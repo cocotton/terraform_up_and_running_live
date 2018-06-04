@@ -8,6 +8,6 @@ module "data_stores_mysql" {
   database_name              = "dev-database"
   database_admin_username    = "superadmin"
   database_admin_password    = "${var.database_admin_password}"
-  database_instance_type     = "t2.micro"
+  database_instance_type     = "db.t2.micro"
   database_allocated_storage = "10"
 }
