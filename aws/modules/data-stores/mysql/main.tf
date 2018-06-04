@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
 resource "aws_db_instance" "example_database" {
   engine              = "mysql"
   allocated_storage   = "${var.database_allocated_storage}"
