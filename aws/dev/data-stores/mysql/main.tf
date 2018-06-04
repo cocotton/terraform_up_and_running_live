@@ -5,7 +5,7 @@ provider "aws" {
 module "data_stores_mysql" {
   source = "../../../modules/data-stores/mysql"
 
-  name              = "dev-database"
+  name              = "devDatabase"
   admin_username    = "superadmin"
   admin_password    = "${var.database_admin_password}"
   instance_class    = "db.t2.micro"
