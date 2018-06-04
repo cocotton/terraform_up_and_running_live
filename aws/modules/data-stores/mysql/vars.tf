@@ -1,19 +1,19 @@
-variable "database_admin_password" {
+variable "admin_password" {
   description = "The admin password for the database"
 }
 
-variable "database_admin_username" {
+variable "admin_username" {
   description = "The admin username for the database"
 }
 
-variable "database_name" {
+variable "name" {
   description = "The database name"
 }
 
-variable "database_allocated_storage" {
+variable "allocated_storage" {
   description = "The allocated storage for the database"
 }
 
-variable "database_instance_type" {
+variable "instance_class" {
   description = "The type of EC2 instance to run the database on"
 }
