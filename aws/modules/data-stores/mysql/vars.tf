@@ -1,5 +1,6 @@
 variable "database_admin_password" {
   description = "The admin password for the database"
+  default     = ""
 }
 
 variable "database_admin_username" {
