@@ -12,3 +12,23 @@ module "terraform_up_and_running" {
   database_remote_state_bucket = "cocotton-terraform-up-and-running-state"
   database_remote_state_key    = "prd/data-stores/mysql/terraform.tfstate"
 }
+
+resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
+  scheduled_action_name = "scale-out-during-business-hours"
+  min_size              = 2
+  max_size              = 10
+  desired_capacity      = 10
+  recurrence            = "0 9 * * *"
+
+  autoscaling_group_name = "${module.terraform_up_and_running.asg_name}"
+}
+
+resource "aws_autoscaling_schedule" "scale_in_at_night" {
+  scheduled_action_name = "scale-in-at-night"
+  min_size              = 2
+  max_size              = 10
+  desired_capacity      = 2
+  recurrence            = "0 17 * * *"
+
+  autoscaling_group_name = "${module.terraform_up_and_running.asg_name}"
+}
