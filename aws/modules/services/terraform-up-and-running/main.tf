@@ -24,7 +24,7 @@ data "template_file" "user_data" {
 resource "aws_launch_configuration" "example" {
   name            = "${var.cluster_name}-launch-configuration"
   image_id        = "ami-a4dc46db"
-  instance_type   = "t2.micro"
+  instance_type   = "${var.instance_type}"
   security_groups = ["${aws_security_group.example_instance.id}"]
 
   user_data = "${data.template_file.user_data.rendered}"
@@ -42,8 +42,8 @@ resource "aws_autoscaling_group" "example_instance" {
   load_balancers    = ["${aws_elb.example.name}"]
   health_check_type = "ELB"
 
-  min_size = 2
-  max_size = 10
+  min_size = "${var.cluster_min_size}"
+  max_size = "${var.cluster_max_size}"
 
   tag {
     key                 = "Name"
