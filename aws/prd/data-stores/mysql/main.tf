@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "data_stores_mysql" {
-  source = "../../../modules/data-stores/mysql"
+  source = "git::git@github.com:cocotton/terraform_up_and_running_modules.git//aws/data-stores/mysql?ref=v0.0.2"
 
   name              = "prdDatabase"
   admin_username    = "superadmin"
