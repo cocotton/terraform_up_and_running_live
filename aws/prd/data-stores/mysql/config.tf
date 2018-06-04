@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket         = "cocotton-terraform-up-and-running-state"
-    key            = "dev/data-stores/mysql/terraform.tfstate"
+    key            = "prd/data-stores/mysql/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = "true"
     dynamodb_table = "terraform-state-lock"
