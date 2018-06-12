@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "terraform_up_and_running" {
-  source = "git::git@github.com:cocotton/terraform_up_and_running_modules.git//aws/services/terraform-up-and-running?ref=v0.1.0"
+  source = "git::git@github.com:cocotton/terraform_up_and_running_modules.git//aws/services/terraform-up-and-running?ref=v0.2.0"
 
   cluster_name                 = "dev"
   cluster_min_size             = 2
