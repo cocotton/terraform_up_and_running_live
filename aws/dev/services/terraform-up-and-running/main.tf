@@ -13,4 +13,5 @@ module "terraform_up_and_running" {
   database_remote_state_key    = "dev/data-stores/mysql/terraform.tfstate"
   enable_autoscaling           = false
   enable_new_user_data         = true
+  server_text                  = "Hello, Baby"
 }
